@@ -1,0 +1,34 @@
+extends layout
+block css
+  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css')
+block content
+  center
+    h3= 'Welcome '
+      span(style='color: #00d6b2')= name
+    form
+      input#name(type='hidden', value= name)
+    div#container
+    script(src='https://cdn.socket.io/socket.io-1.2.0.js')
+    script(src='http://code.jquery.com/jquery-1.11.1.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js')
+
+    script.
+      var socket = io();
+      var name = $('#name').val();
+      socket.emit('name', name);
+      socket.emit('getUsers');
+      socket.on('chat message', function(msg){
+        var array = msg.split(':');
+        Materialize.toast('You got a message from '+ array[0], 4000);
+      })
+      socket.on('users', function(users){
+        console.log("got it");
+        console.log(users['liste']);
+        document.getElementById("container").innerHTML = '';
+        document.getElementById("container").innerHTML = '<center><h4>List of users</h4></center>';
+        for ( i in users['liste']){
+          if (i !== name) {
+              document.getElementById("container").innerHTML += "<center><h5><a href='/chat/"+i+"'>"+i+"</a></h5></center>";
+          }
+        }
+      })

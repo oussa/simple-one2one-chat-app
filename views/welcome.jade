@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  center
+     .container
+       form(action='users', method='post')
+        label(for='username')  Type your name:
+        br
+        input#username.form-control(type='text', name='name', placeholder='name', required='')
+        br
+        button#register.btn.btn-primary(type='submit') Register
+
+  // Latest compiled and minified JavaScript
+  script(src='https://code.jquery.com/jquery-2.1.4.min.js')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
